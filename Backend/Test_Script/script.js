@@ -77,7 +77,7 @@ const runTest = async (req, res) => {
     }
 
     let cnt = 0;
-    for (let i = 0; i < input.length; i++) {
+    for (let i = 0; i < 10; i++) {
       const currentInput = input[i].trim();
       const currentExpectedOutput = expectedOutputs[i].trim();
 
@@ -103,7 +103,7 @@ const runTest = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      message: `${cnt}/10 TestCases passed.\nThe accuracy is ${(cnt / input.length) * 100}%`,
+      message: `${cnt}/10 TestCases passed.\nThe accuracy is ${(cnt / 10) * 100}%`,
     });
   } catch (error) {
     console.error("Error running test:", error);

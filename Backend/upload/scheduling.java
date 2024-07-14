@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class code{
+public class scheduling{
     public static void sort(int[][] arr, int i, int s, int e, boolean reverse) {
         if (reverse) {
             Arrays.sort(arr, s, e, (a, b) -> Integer.compare(b[i], a[i]));
@@ -40,7 +40,7 @@ public class code{
     }
 
     public static void main(String[] args) {
-        
+
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[][] arr = new int[n][4];
@@ -49,7 +49,7 @@ public class code{
                 arr[i][j] = sc.nextInt();
             }
         }
-        
+
 
         Object[] ans = schedule(arr);
         for (Object i : ans) {
