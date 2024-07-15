@@ -17,8 +17,8 @@ const getLanguageAndVersion = (ext) => {
 const runTest = async (req, res) => {
   try {
     const JDOODLE_API_URL = "https://api.jdoodle.com/v1/execute";
-    const CLIENT_ID = process.env.CLIENT_ID;
-    const CLIENT_SECRET = process.env.CLIENT_SECRET;
+    const CLIENT_ID = req.body.id;
+    const CLIENT_SECRET = req.body.secret;
 
     const solutionFile = req.file.path; 
     const story = req.body.story;
@@ -103,6 +103,8 @@ const runTest = async (req, res) => {
 
     return res.status(200).send({
       success: true,
+      passed:cnt,
+      completion:cnt/10 *100,
       message: `${cnt}/10 TestCases passed.\nThe accuracy is ${(cnt / 10) * 100}%`,
     });
   } catch (error) {
