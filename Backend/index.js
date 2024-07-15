@@ -11,7 +11,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin:'https://algotest1.netlify.app/',
+    origin:['https://algotest1.netlify.app','http://localhost:5173'],
     methods:['GET','POST'],
     credentials:true
 }))
