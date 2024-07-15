@@ -105,9 +105,9 @@ const Test = () => {
             <option value="" className="text-gray-800">
               Select Story
             </option>
-            <option value="bellman">Bellman Ford</option>
-            <option value="tsp">Travelling Salesman</option>
-            <option value="schedule">Scheduling</option>
+            <option value="bellman">The Global Shipping Challenge</option>
+            <option value="tsp">The Arcanian Peril</option>
+            <option value="schedule">Caring Under Pressure</option>
             {/* <option value="huffman">Huffman Code</option> */}
           </select>
 
