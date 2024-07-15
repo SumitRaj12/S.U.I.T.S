@@ -5,11 +5,12 @@ import cors from 'cors';
 import { dirname } from "path";
 import multer from "multer";
 import { mkdir } from "fs/promises";
+import connection from "./Database/db.js";
 import runTest from "./Test_Script/script.js";
 
 const app = express();
 const port = 3000;
-
+connection();
 app.use(cors({
     origin:['https://algotest1.netlify.app','http://localhost:5173'],
     methods:['GET','POST'],

@@ -3,6 +3,7 @@ import axios from "axios";
 import { config } from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import {Submit} from "../Model/submit.model.js";
 config();
 
 const getLanguageAndVersion = (ext) => {
@@ -19,8 +20,11 @@ const runTest = async (req, res) => {
     const JDOODLE_API_URL = "https://api.jdoodle.com/v1/execute";
     const CLIENT_ID = req.body.id;
     const CLIENT_SECRET = req.body.secret;
+    const usn = req.body.usn;
+    const name = req.body.name;
+    console.log(name+" "+usn);
 
-    const solutionFile = req.file.path; 
+    const solutionFile = req.file.path;
     const story = req.body.story;
     let inputFile, expectedOutputFile;
 
@@ -76,7 +80,7 @@ const runTest = async (req, res) => {
       });
     }
 
-    let cnt = 0;
+    let score = 0;
     for (let i = 0; i < 10; i++) {
       const currentInput = input[i].trim();
       const currentExpectedOutput = expectedOutputs[i].trim();
@@ -92,7 +96,7 @@ const runTest = async (req, res) => {
 
       const output = response.data.output ? response.data.output.trim() : "";
       if (output === currentExpectedOutput) {
-        cnt++;
+        score++;
         console.log(`Test case ${i + 1} for ${solutionFile} passed.`);
       } else {
         console.log(`Test case ${i + 1} for ${solutionFile} failed.`);
@@ -100,12 +104,30 @@ const runTest = async (req, res) => {
         console.log(`Actual:\n${output}`);
       }
     }
+    //updating the mongodb.
+    try {
+      let user = await Submit.findOne({ usn });
 
+      if (user) {
+        if(score>user.score){
+          user.score=score;
+          await user.save();
+        }
+      }
+      else{
+        const accuracy = (score/10)*100;
+        user = new Submit({name,usn,score,story,accuracy});
+        await user.save();
+      }
+      console.log("Successfully stored")
+    } catch (err) {console.log("Error in storing in db "+err)}
     return res.status(200).send({
       success: true,
-      passed:cnt,
-      completion:cnt/10 *100,
-      message: `${cnt}/10 TestCases passed.\nThe accuracy is ${(cnt / 10) * 100}%`,
+      passed: score,
+      completion: (score / 10) * 100,
+      message: `${score}/10 TestCases passed.\nThe accuracy is ${
+        (score / 10) * 100
+      }%`,
     });
   } catch (error) {
     console.error("Error running test:", error);
