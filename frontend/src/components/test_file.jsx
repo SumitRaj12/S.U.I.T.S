@@ -42,7 +42,7 @@ const Test = () => {
     //https://s-u-i-t-s.onrender.com/v1/test
     try {
       const response = await axios.post(
-        "https://s-u-i-t-s.onrender.com/v1/test",
+        "https://s-u-i-t-s-md1s.onrender.com/v1/test",
         formData,
         {
           headers: {
